@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Residence - GENZ Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --secondary: #0D1B2A;
+      --primary: #FFD700;
+      --accent: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--accent);
+      color: var(--secondary);
+      overflow-x: hidden;
+    }
+
+    body {
+      overflow: auto;
+    }
+
+    header {
+      padding: 0rem;
+      background-color: var(--secondary);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .header-title {
+      display: none;
+    }
+
+    main {
+      padding: 0;
+    }
+
+    .menu-wrapper {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      transform: translateY(-50%);
+      z-index: 1001;
+    }
+
+    .hamburger {
+      width: 30px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .bar {
+      height: 4px;
+      background-color: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+.hamburger.open .bar:nth-child(1) {
+transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .bar:nth-child(2) {
+opacity: 0;
+}
+
+.hamburger.open .bar:nth-child(3) {
+transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.dropdown-menu {
+position: absolute;
+top: 100%;
+right: 0;
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(10px);
+display: flex;
+flex-direction: column;
+padding: 1rem;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+transform: translateY(-20px);
+opacity: 0;
+pointer-events: none;
+transition: all 0.3s ease;
+z-index: 1001;
+}
+
+.dropdown-menu.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateY(0);
+}
+
+.dropdown-menu a {
+color: #000;
+text-decoration: none;
+margin-bottom: 1rem;
+font-weight: 600;
+transition: background-color 0.3s, color 0.3s;
+padding: 0.5rem 1rem;
+border-radius: 5px;
+}
+
+.dropdown-menu a:hover {
+background-color: var(--secondary);
+color: var(--primary);
+}
+
+    /* Gallery */
+    .gallery {
+      display: none;
+      padding: 1rem;
+      column-gap: 1rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      margin-bottom: 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: block;
+      break-inside: avoid;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .overlay img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    /* Slideshow */
+    .slideshow {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slideshow img {
+      width: 94vw;
+      height: 87vh;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+      transition: opacity 0.5s ease-in-out;
+      opacity: 1;
+    }
+
+    .slideshow img.fade-out{
+      opacity: 0;
+    }
+
+    .image-title {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: rgba(255, 255, 255, 0.65);
+      padding: 0.25rem 0.75rem;
+      border-radius: 5px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .slideshow-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 1rem;
+    }
+
+    .slideshow-controls button {
+      background: transparent;
+      border: none;
+      color: var(--secondary);
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .slideshow-controls button:hover {
+      transform: scale(1.1);
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      background: none;
+      border: none;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      z-index: 1002;
+      color: var(--primary);
+      border-radius: 5px;
+      transform-origin: center;
+      transition: transform 0.2s ease-in-out;
+    }
+    .nav-btn.left {
+      left: 1rem;
+    }
+    .nav-btn.right {
+      right: 1rem;
+    }
+    .nav-btn:hover{
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .overlay img {
+      opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    }
+
+    .overlay.active img {
+      opacity: 1;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .gallery {
+        display: block;
+        column-count: 1;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .header-title {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+      .gallery {
+        display: block;
+        column-count: 2;
+      }
+      .slideshow {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      html,body{
+        overflow: hidden;
+        height: 100%;
+      }
+      .slideshow {
+        display: block !important;
+      }
+      .gallery {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" aria-label="Go to Homepage">
+      <img src="images/homepage/logo.webp" alt="GENZ Logo" class="logo" />
+    </a>
+    <h1 class="header-title">Residence</h1>
+  </header>
+
+  <div class="menu-wrapper" aria-label="Navigation Menu">
+    <div class="hamburger" onclick="toggleMenu(this)" aria-label="Toggle navigation">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  
+    <div class="dropdown-menu" id="dropdown">
+      <a href="restaurant.html" onclick="closeMenu()">Restaurant</a>
+      <a href="aesthetics.html" onclick="closeMenu()">Aesthetics</a>
+      <a href="cosmetics.html" onclick="closeMenu()">Cosmetics</a>
+      <a href="addresshouse.html" onclick="closeMenu()">Address-House</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- Desktop Slideshow -->
+    <div class="slideshow" id="slideshow">
+      <img id="slideImage" src="images/house1/kitchen.webp" alt="Slideshow" />
+      <h1 class="image-title">Residence</h1>
+      <div class="slideshow-controls">
+        <button id="prevBtn">&#10094;</button>
+        <button id="nextBtn">&#10095;</button>
+      </div>
+    </div>
+
+    <!-- Mobile/Tablet Gallery -->
+    <div class="gallery">
+      <img src="images/house1/kitchen.webp" alt="Kitchen">
+      <img src="images/house1/combined.webp" alt="Kitchen-Dining">
+      <img src="images/house1/bedroom.webp" alt="Bedroom">
+      <img src="images/house1/sidebed.webp" alt="Side-Angle">
+      <img src="images/house1/drawer.webp" alt="Drawer">
+      <img src="images/house1/dining.webp" alt="Dining">
+      <img src="images/house1/wide-area.webp" alt="Wide-Angle">
+      <img src="images/house1/living.webp" alt="Living">
+      <img src="images/house1/kid-bed.webp" alt="Kids-Bedroom">
+      <img src="images/house1/kid-drawer.webp" alt="Drawer">
+    </div>
+  </main>
+
+  <!-- Fullscreen Overlay -->
+  <div class="overlay" id="overlay">
+    <button class="nav-btn left" id="overlayPrev">&#10094;</button>
+    <img id="overlayImg" src="" alt="Full image">
+    <button class="nav-btn right" id="overlayNext">&#10095;</button>
+  </div>  
+
+  <script>
+    function toggleMenu(el) {
+      el.classList.toggle('open');
+      document.getElementById('dropdown').classList.toggle('show');
+    }
+
+    function closeMenu() {
+      document.querySelector('.hamburger')?.classList.remove('open');
+      document.getElementById('dropdown')?.classList.remove('show');
+    }
+
+    function animateCountUp(id, target, duration) {
+      const element = document.getElementById(id);
+      let start = 0;
+      clearInterval(element._countUpTimer);
+      const stepTime = Math.abs(Math.floor(duration / target));
+      element._countUpTimer = setInterval(() => {
+        start++;
+        element.textContent = start.toLocaleString();
+        if (start >= target) clearInterval(element._countUpTimer);
+      }, stepTime);
+    }
+    // Mobile overlay
+  const overlay = document.getElementById("overlay");
+  const overlayImg = document.getElementById("overlayImg");
+  const overlayNext = document.getElementById("overlayNext");
+  const overlayPrev = document.getElementById("overlayPrev");
+
+  const galleryImages = Array.from(document.querySelectorAll(".gallery img"));
+  let overlayIndex = 0;
+
+  galleryImages.forEach((img, i) => {
+    img.addEventListener("click", () => {
+      overlayIndex = i;
+      overlayImg.src = img.src;
+      overlay.classList.add("active");
+
+      // Push a state so back button works
+      history.pushState({ overlay: true }, "");
+    });
+  });
+
+  overlayNext.addEventListener("click", () => {
+    overlayIndex = (overlayIndex + 1) % galleryImages.length;
+    overlayImg.src = galleryImages[overlayIndex].src;
+  });
+
+  overlayPrev.addEventListener("click", () => {
+    overlayIndex = (overlayIndex - 1 + galleryImages.length) % galleryImages.length;
+    overlayImg.src = galleryImages[overlayIndex].src;
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay || e.target === overlayImg) {
+      closeOverlay();
+    }
+  });
+
+  function closeOverlay() {
+    overlay.classList.remove("active");
+    // Go back one history state if we added one
+    if (history.state?.overlay) history.back();
+  }
+
+  window.addEventListener("popstate", (e) => {
+    if (!e.state?.overlay) {
+      overlay.classList.remove("active");
+    }
+  });
+
+    // Slideshow
+    const images = [
+      "images/house1/kitchen.webp",
+      "images/house1/combined.webp",
+      "images/house1/living.webp",
+      "images/house1/dining.webp",
+      "images/house1/wide-area.webp",
+      "images/house1/bedroom.webp",
+      "images/house1/sidebed.webp",
+      "images/house1/drawer.webp",
+      "images/house1/kid-bed.webp",
+      "images/house1/kid-drawer.webp"
+    ];
+    let index = 0;
+    const slideImage = document.getElementById("slideImage");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+
+    function changeSlide(next = true) {
+  slideImage.classList.add('fade-out');
+
+  slideImage.addEventListener('transitionend', function handler() {
+    slideImage.removeEventListener('transitionend', handler);
+    index = (index + (next ? 1 : -1) + images.length) % images.length;
+    slideImage.src = images[index];
+    slideImage.classList.remove('fade-out');
+  });
+}
+
+  nextBtn.onclick = () => changeSlide(true);
+  prevBtn.onclick = () => changeSlide(false);
+  </script>
+  <script>
+    // Close hamburger when clicking outside
+    document.addEventListener('click', function (e) {
+      const hamburger = document.querySelector('.hamburger');
+      const dropdown = document.getElementById('dropdown');
+      
+      if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
+        hamburger.classList.remove('open');
+        dropdown.classList.remove('show');
+      }
+    });
+  </script>
+
+</body>
+</html>

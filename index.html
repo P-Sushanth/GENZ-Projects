@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+  <meta name="description" content="GENZ Projects is a premier architecture firm specializing in interiors, residential, and landscape design projects." />
+  <title>GENZ Projects - Architecture Firm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --secondary: #0D1B2A;
+      --primary: #FFD700;
+      --accent: #FFFFFF;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      color: var(--accent);
+      padding-top: 150px;
+    }
+
+    header {
+      background-color: var(--secondary);
+      color: var(--primary);
+      padding: 0.5rem 0.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .header-content {
+      position: relative;
+      height: 120px;
+      transition: height 0.3s ease;
+    }
+
+    .logo-symbol,
+    .logo-text {
+      position: absolute;
+      transition: all 0.5s ease;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-symbol{
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-symbol img {
+      height: 80px;
+      border-radius: 5px;
+    }
+
+    .logo-text{
+      top: 85px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-text img {
+      height: 40px;
+    }
+
+    /* Scroll effect */
+    .scrolled .logo-symbol {
+      left: 1rem;
+      transform: translateX(0) scale(1);
+    }
+
+    .scrolled .logo-text {
+      top: 41px;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .header-content.scrolled{
+      height: 80px;
+    }
+
+    .menu-wrapper {
+      position: absolute;
+      top: 35%;
+      right: 2rem;
+    }
+
+    .hamburger {
+      width: 30px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .bar {
+      height: 4px;
+      background-color: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+.hamburger.open .bar:nth-child(1) {
+transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .bar:nth-child(2) {
+opacity: 0;
+}
+
+.hamburger.open .bar:nth-child(3) {
+transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.dropdown-menu {
+position: absolute;
+top: 100%;
+right: 0;
+background: rgba(255, 255, 255, 0.9);
+backdrop-filter: blur(10px);
+display: flex;
+flex-direction: column;
+padding: 1rem;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+transform: translateY(-20px);
+opacity: 0;
+pointer-events: none;
+transition: all 0.3s ease;
+}
+
+.dropdown-menu.show {
+opacity: 1;
+pointer-events: auto;
+transform: translateY(0);
+}
+
+.dropdown-menu a {
+color: #000;
+text-decoration: none;
+margin-bottom: 1rem;
+font-weight: 600;
+transition: background-color 0.3s, color 0.3s;
+padding: 0.5rem 1rem;
+border-radius: 5px;
+}
+
+.dropdown-menu a:hover {
+background-color: var(--secondary);
+color: var(--primary);
+}
+
+section {
+padding: 4rem 2rem;
+text-align: center;
+}
+
+#about {
+background-color: var(--primary);
+color: var(--secondary);
+}
+
+#works {
+background-color: var(--accent);
+color: var(--secondary);
+}
+
+.visual-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1rem;
+margin-top: 2rem;
+}
+
+.visual-item {
+position: relative;
+overflow: hidden;
+cursor: pointer;
+border-radius: 10px;
+}
+
+.visual-item img {
+width: 100%;
+height: 350px;
+object-fit: cover;
+}
+
+.visual-item span {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+color: white;
+text-align: center;
+font-weight: bold;
+padding: 0.5rem 0;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+}
+
+@media (min-width: 481px){
+.visual-item:hover img,
+.visual-item:hover span {
+transform: scale(1.20);
+}
+.visual-item img,
+.visual-item span {
+transition: transform 0.3s;
+}
+}
+
+.gradient-divider {
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    #FFD700 0%,
+    #0D1B2A 100%
+  );
+}
+
+.background-divider {
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent) 0%,
+    var(--primary) 100%
+  );
+}
+
+#impact {
+background-color: var(--secondary);
+color: var(--primary);
+}
+
+.impact-stats {
+display: flex;
+justify-content: center;
+gap: 3rem;
+flex-wrap: wrap;
+margin-top: 2rem;
+}
+
+.impact-item {
+font-size: 1.25rem;
+font-weight: 500;
+max-width: 200px;
+}
+
+.impact-item div {
+font-size: 2.5rem;
+font-weight: bold;
+margin: 0.5rem 0;
+}
+
+@media (max-width: 480px) {
+.logo-text{
+  top: 90%;
+  transform: translate(-50%, -50%) scale(0.7);
+}
+.menu-wrapper {
+  top: 1rem;
+  right: 1rem;
+  transform: scale(0.8);
+}
+
+.logo-symbol {
+  left: 50% !important;
+  transform: translate(-50%, 0) !important;
+}
+
+.logo-symbol img{
+  height: 50px;
+}
+
+.logo-text img{
+  height: 40px;
+}
+
+.header-content {
+  height: 80px;
+}
+
+.scrolled .logo-symbol {
+  left: 0rem !important;
+  transform: translateX(0) scale(0.8) !important;
+}
+
+.scrolled .logo-text {
+  top: 10px !important;
+  left: 50% !important;
+  transform: translateX(-50%) scale(0.7) !important;
+}
+
+.header-content.scrolled {
+  height: 40px !important;
+}
+
+}
+
+@media (max-width: 1024px) {
+.logo-symbol{
+  left: 50% !important;
+  transform: translate(-50%, 0) !important;
+}
+
+.logo-symbol img{
+  height: 60px;
+}
+
+.logo-text{
+  top: 83%;
+  transform: translate(-50%, -50%) scale(0.7);
+}
+
+.logo-text img{
+  height: 55px;
+}
+
+.header-content{
+  height: 100px;
+}
+
+.scrolled .logo-symbol {
+  left: 0rem !important;
+  transform: translateX(0) scale(0.8) !important;
+}
+
+.scrolled .logo-text {
+  top: 10px !important;
+  left: 50% !important;
+  transform: translateX(-50%) scale(0.7) !important;
+}
+
+.header-content.scrolled {
+  height: 50px !important;
+}
+
+.visual-grid {
+grid-template-columns: 1fr;
+}
+
+.logo-container img:first-child {
+height: 100px;
+}
+
+body, p, h3 {
+font-size: 100%;
+}
+h2{
+font-size: 25px;
+}
+
+.visual-item img {
+filter: none !important;
+}
+
+.visual-item:hover img,
+.visual-item:hover span {
+transform: none !important;
+}
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.fade-line-group p,
+.fade-line-group h3 {
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.6s ease-out;
+}
+.fade-line-group p.visible,
+.fade-line-group h3.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="logo-symbol">
+        <img src="images/homepage/logo.webp" alt="GENZ Projects Logo - modern architecture symbol" loading="lazy" />
+      </div>
+      <div class="logo-text">
+        <img src="images/homepage/text.webp" alt="GENZ Projects Logo Text" loading="lazy" />
+      </div>
+    </div>
+
+<div class="menu-wrapper" aria-label="Navigation Menu">
+  <div class="hamburger" onclick="toggleMenu(this)" aria-label="Toggle navigation">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <div class="dropdown-menu" id="dropdown">
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#works" onclick="closeMenu()">Works</a>
+    <a href="#impact" onclick="closeMenu()">Impact</a>
+    <a href="#about" onclick="closeMenu()">Contact</a>
+  </div>
+</div>
+
+  </header>
+
+  <section id="works">
+    <h2>Our Works</h2>
+    <div class="visual-grid">
+      <div class="visual-item" onclick="location.href='residence.html'" aria-label="Residence Page">
+        <img src="images/homepage/house1.webp" alt="Modern House" loading="lazy">
+        <span>Residence</span>
+      </div>
+      <div class="visual-item" onclick="location.href='restaurant.html'" aria-label="Restaurant Page">
+        <img src="images/homepage/restaurant.webp" alt="Restaurant" loading="lazy">
+        <span>Restaurant</span>
+      </div>
+      <div class="visual-item" onclick="location.href='aesthetics.html'" aria-label="Aesthetics Page">
+        <img src="images/homepage/aesthetics.webp" alt="Skin-Care Office" loading="lazy">
+        <span>Aesthetic Office</span>
+      </div>
+      <div class="visual-item" onclick="location.href='cosmetics.html'" aria-label="Cosmetics Page">
+        <img src="images/homepage/cosmetics.webp" alt="Skin-Care Office" loading="lazy">
+        <span>Cosmetics</span>
+      </div>
+      <div class="visual-item" onclick="location.href='addresshouse.html'" aria-label="Address House Page">
+        <img src="images/homepage/addresshouse.webp" alt="Address-House" loading="lazy">
+        <span>Address-House</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="background-divider"></div>
+
+  <section id="about">
+    <h2>About Us </h2>
+    <div class="fade-line-group">
+      <p style="margin-top: 1rem; max-width: 600px; margin-inline: auto;">
+        GENZ Projects is a cutting-edge architecture firm focused on delivering elegant interior and landscape designs.
+      </p>
+      <p style="max-width: 600px; margin-inline: auto;">
+        From stunning homes to smart commercial spaces, we combine creativity and functionality to shape inspiring environments.
+      </p>
+      <p style="max-width: 600px; margin-inline: auto;">
+        With a commitment to innovation and excellence, we bring every vision to life.
+      </p>
+    </div>
+
+<div class="fade-line-group" style="margin-top: 2rem;">
+  <h3>Contact Us </h3>
+  <p>Phone: +91-9347388258</p>
+  <p>Email: <a href="mailto:genzzprojects@gmail.com" style="color: inherit; text-decoration: underline;">genzzprojects@gmail.com</a></p>
+</div>
+
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <section id="impact">
+    <h2>Our Impact</h2>
+    <div class="impact-stats">
+      <div class="impact-item">
+        <p>Over</p>
+        <div id="family-count">0</div>
+        <p>families transformed</p>
+      </div>
+      <div class="impact-item">
+        <p>More than</p>
+        <div id="commercial-count">0</div>
+        <p>commercial projects</p>
+      </div>
+      <div class="impact-item">
+        <p>Over</p>
+        <div id="landscape-count">0</div>
+        <p>landscapes brought to life</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function toggleMenu(el) {
+      el.classList.toggle('open');
+      document.getElementById('dropdown').classList.toggle('show');
+    }
+
+    function closeMenu() {
+      document.querySelector('.hamburger')?.classList.remove('open');
+      document.getElementById('dropdown')?.classList.remove('show');
+    }
+
+    function animateCountUp(id, target, duration) {
+      const element = document.getElementById(id);
+      let start = 0;
+      clearInterval(element._countUpTimer);
+      const stepTime = Math.abs(Math.floor(duration / target));
+      element._countUpTimer = setInterval(() => {
+        start++;
+        element.textContent = start.toLocaleString();
+        if (start >= target) clearInterval(element._countUpTimer);
+      }, stepTime);
+    }
+
+    window.addEventListener('load', () => {
+      const impactSection = document.getElementById('impact');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCountUp("family-count", 30, 900);
+            animateCountUp("commercial-count", 50, 1100);
+            animateCountUp("landscape-count", 15, 1300);
+          }
+        });
+      }, { threshold: 0.6 });
+      observer.observe(impactSection);
+    });
+
+    // Sticky header animation
+    window.addEventListener('scroll', () => {
+      const headerContent = document.querySelector('.header-content');
+      if (window.scrollY > 50) {
+        headerContent.classList.add('scrolled');
+      } else {
+        headerContent.classList.remove('scrolled');
+      }
+    });
+</script>
+
+<script>
+  const lines = document.querySelectorAll('.fade-line-group p, .fade-line-group h3');
+
+const lineObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    } else {
+      entry.target.classList.remove('visible'); // Removes class when out of view
+    }
+  });
+}, { threshold: 0.6 });
+
+lines.forEach(line => {
+  lineObserver.observe(line);
+});
+
+</script>
+<script>
+  // Close hamburger when clicking outside
+  document.addEventListener('click', function (e) {
+    const hamburger = document.querySelector('.hamburger');
+    const dropdown = document.getElementById('dropdown');
+    
+    if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
+      hamburger.classList.remove('open');
+      dropdown.classList.remove('show');
+    }
+  });
+</script>
+
+</body>
+</html>
