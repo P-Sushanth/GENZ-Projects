@@ -130,6 +130,8 @@ h6 {
 }
 
 .logo-wrapper {
+    display: flex;
+    align-items: center;
     text-decoration: none;
 }
 
@@ -536,7 +538,7 @@ h6 {
 
     .gallery-row {
         flex-direction: column;
-        gap: 4rem;
+        gap: 1.5rem;
     }
 
     .next-projects-grid {
